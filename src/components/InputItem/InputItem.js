@@ -1,20 +1,22 @@
-import React, {useState} from "react";
+import React, {useRef} from "react";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 
 import  classes from "./InputItem.module.css";
 
 const InputItem = (props) => {
-    const [name, changename] = useState("");
-    const [age, updateAge] = useState("");
+    const userInputRef = useRef();
+    const ageInputRef = useRef();
 
     const AddUser = (e)=>{
         e.preventDefault();
+        const name = userInputRef.current.value;
+        const age = ageInputRef.current.value;
         if(/^[a-z]+/gi.test(name) && /^[0-9]{1}/.test(age))
         {
             props.addList(name, age);
-            changename("");
-            updateAge("");
+            userInputRef.current.value = "";
+            ageInputRef.current.value = "";
         } else if(age < 0){
             props.showError("Age Must be > 0")
         } else{
@@ -22,21 +24,12 @@ const InputItem = (props) => {
         }
         
     };
-
-    const addName = (e) => {
-        changename(e.target.value);
-    };
-
-    const addAge = (e) => {
-        updateAge(e.target.value)
-    };
-
     return (<Card className={classes.input}>
     <form onSubmit={AddUser}>
         <label htmlFor="name">Username:</label>
-        <input type="text" id="name" value={name} onChange={addName}/>
+        <input type="text" id="name" ref={userInputRef}/>
         <label htmlFor="age">Age:</label>
-        <input type= "number" id="age" value={age} onChange={addAge}/>
+        <input type= "number" id="age" ref={ageInputRef}/>
         <Button type="submit">AddUser</Button>
     </form>
     </Card>);
