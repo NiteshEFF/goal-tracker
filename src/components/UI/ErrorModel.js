@@ -1,23 +1,22 @@
 import React from "react";
-import Card from "./Card";
-import Button from "./Button";
-import classes from "./ErrorModel.module.css";
+import {createPortal} from "react-dom";
+import BackDrop from "./BackDrop";
+import ErrorCard from "./ErrorCard";
 
 const ErrorModel = (props) => {
-    return <>
-    <div className={classes.backdrop} onClick={props.hideModel}/>
-    <Card className={classes.modal}>
-        <header className={classes.header}>
-        <h2>{props.title}</h2>
-        </header>
-        <div className={classes.content}>
-        <p>{props.message}</p>
-        </div>
-        <footer className={classes.actions}>
-            <Button clickHandler={props.hideModel}>Okay</Button>
-        </footer>
-    </Card>
-    </>
+    return <React.Fragment>
+    {createPortal(<BackDrop 
+                    hideModel={props.hideModel}
+                    />,
+                    document.querySelector("#back-drop"))}
+    {createPortal(<ErrorCard 
+                    hideModel={props.hideModel}
+                    title={props.title}
+                    message={props.message}
+                    />,
+                    document.querySelector("#error-model"))
+    }
+    </React.Fragment>
 
 }
 export default ErrorModel;

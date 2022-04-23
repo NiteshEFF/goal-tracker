@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import InputItem from './components/InputItem/InputItem';
 import UserList from './components/UserList/UserList';
 import ErrorModel from './components/UI/ErrorModel';
+import Wraper from './components/Helpers/Wraper';
 
 function App() {
 
@@ -30,11 +31,11 @@ function App() {
 
   
   return (
-    <div>
+    <Wraper>
       {(dialougeDisplay) && <ErrorModel title="An Error Occured" message={displayMsg} hideModel={hideDisplay}/>}
       <InputItem addList={addUser} showError={displayMessage}/>
       <UserList userList={userList} />
-    </div>
+    </Wraper>
   );
 }
 
